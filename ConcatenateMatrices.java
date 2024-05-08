@@ -25,8 +25,8 @@ public class ConcatenateMatrices {
         return matrix;
     }
 
-    //returns matrix with given rows and columns number read from scanner input stream
-    //or returns null if next input doesn't give a matrix with given parameters
+    // returns matrix with given rows and columns number read from scanner input stream
+    // or returns null if next input doesn't give a matrix with given parameters
     public String[][] readNextArray(Scanner scanner, int rowsNum, int colsNum)
     {
         String[][] resMatr = createMatrixMN(rowsNum,colsNum);
@@ -59,6 +59,54 @@ public class ConcatenateMatrices {
             return null;
 
         return resMatr;
+    }
+
+    // returns true if each row of given array has the same number of columns
+    // otherwise, returns false
+    public boolean isMatrix(String[][] array)
+    {
+        if (array.length == 0)
+            return true;
+
+        int prevColNum = array[0].length;
+        for(int i = 1; i < array.length; i++)
+        {
+            if (array[i].length != prevColNum)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // returns matrix which is a result of two given matrices concatenation
+    // or returns null if given arrays are not matrices or given matrices have different size or zero-size
+    public String[][] concatenateMatrices(String[][] matrix1, String[][] matrix2)
+    {
+        if(!isMatrix(matrix1) || !isMatrix(matrix2))
+            return null;
+
+        if(matrix1.length == 0 || matrix1[0].length == 0)
+            return null;
+        if(matrix2.length == 0 || matrix2[0].length == 0)
+            return null;
+
+        if(matrix1.length != matrix2.length || matrix1[0].length != matrix2[0].length)
+            return null;
+
+        int rowsNum = matrix1.length;
+        int colsNum = matrix1[0].length;
+        String[][] res = createMatrixMN(rowsNum, colsNum);
+
+        for(int i = 0; i < rowsNum; i++)
+        {
+            for(int j = 0; j < colsNum; j++)
+            {
+                res[i][j] = matrix1[i][j] + matrix2[i][j];
+            }
+        }
+
+        return res;
     }
 
     public static void main(String[] args) throws IOException {
