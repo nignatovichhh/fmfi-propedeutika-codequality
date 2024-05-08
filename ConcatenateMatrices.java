@@ -3,6 +3,28 @@ import java.io.*;
 
 public class ConcatenateMatrices {
 
+    // returns new empty String matrix with the given POSITIVE number of rows and colums;
+    // when input is incorrect returns null
+    public String[][] createMatrixMM(int rowsNum, int colsNum)
+    {
+        if (rowsNum <= 0 || colsNum <= 0)
+            return null;
+
+        String[][] matrix = new String[rowsNum][];
+
+        for (int k = 0; k < rowsNum; k++) {
+            matrix[k] = new String[colsNum];
+        }
+
+        for (int i = 0; i < rowsNum; i++) {
+            for (int j = 0; j < colsNum; j++) {
+                matrix[i][j] = "";
+            }
+        }
+
+        return matrix;
+    }
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File("vstup.txt"));
         PrintStream output = new PrintStream("vystup.txt");
