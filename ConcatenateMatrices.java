@@ -109,6 +109,18 @@ public class ConcatenateMatrices {
         return res;
     }
 
+    // prints to output given array in the format: "[i,j]: arr[i][j]\n"
+    public void arrayToOutput(PrintStream output, String[][] array)
+    {
+        int rowsNum = array.length;
+
+        for (int i = 0; i < rowsNum; i++) { //formatovany vystup vyslednej matice
+            int colsNum = array[i].length;
+            for (int j = 0; j < colsNum; j++) {
+                output.printf("[%d,%d]: %s\n", i, j, array[i][j]);
+            }
+        }
+    }
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(new File("vstup.txt"));
         PrintStream output = new PrintStream("vystup.txt");
