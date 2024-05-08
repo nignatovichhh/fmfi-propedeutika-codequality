@@ -50,13 +50,9 @@ public class ConcatenateMatrices {
             }
 
             // returns null if in any row number of columns is more that colsNum
-            if (curLineScanner.hasNext())
+            if (curLineScanner.hasNext() && curLineScanner.next()!="\n")
                 return null;
         }
-
-        // returns null if in any column number of rows is more that rowsNum
-        if (scanner.hasNext())
-            return null;
 
         return resMatr;
     }
@@ -126,11 +122,17 @@ public class ConcatenateMatrices {
         Scanner scanner = new Scanner(new File("vstup.txt"));
         PrintStream output = new PrintStream("vystup.txt");
 
+
         int rowsNum=0,colsNum=0;
-        if (scanner.hasNextInt())
-            rowsNum = scanner.nextInt();
-        if (scanner.hasNextInt())
-            colsNum = scanner.nextInt();
+
+        if(scanner.hasNextLine())
+        {
+            Scanner firstLineScanner = new Scanner(scanner.nextLine());
+            if (firstLineScanner.hasNextInt())
+                rowsNum = firstLineScanner.nextInt();
+            if (firstLineScanner.hasNextInt())
+                colsNum = firstLineScanner.nextInt();
+        }
 
         List<String[][]> allMatrices = new ArrayList<String[][]>();
 
