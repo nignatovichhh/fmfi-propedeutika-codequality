@@ -5,7 +5,7 @@ public class ConcatenateMatrices {
 
     // returns new empty String matrix with the given POSITIVE number of rows and colums;
     // when input is incorrect returns null
-    public String[][] createMatrixMM(int rowsNum, int colsNum)
+    public String[][] createMatrixMN(int rowsNum, int colsNum)
     {
         if (rowsNum <= 0 || colsNum <= 0)
             return null;
@@ -23,6 +23,42 @@ public class ConcatenateMatrices {
         }
 
         return matrix;
+    }
+
+    //returns matrix with given rows and columns number read from scanner input stream
+    //or returns null if next input doesn't give a matrix with given parameters
+    public String[][] readNextArray(Scanner scanner, int rowsNum, int colsNum)
+    {
+        String[][] resMatr = createMatrixMN(rowsNum,colsNum);
+
+        for(int i = 0; i < rowsNum; i++)
+        {
+            // returns null if number of rows is less that rowsNum
+            if(!scanner.hasNextLine())
+                return null;
+
+            String curLine = scanner.nextLine();
+            Scanner curLineScanner = new Scanner(curLine);
+
+            for(int j = 0; j < colsNum; j++)
+            {
+                // returns null if number of columns is less that colNum
+                if(!curLineScanner.hasNext())
+                    return null;
+
+                resMatr[i][j] = curLineScanner.next();
+            }
+
+            // returns null if in any row number of columns is more that colsNum
+            if (curLineScanner.hasNext())
+                return null;
+        }
+
+        // returns null if in any column number of rows is more that rowsNum
+        if (scanner.hasNext())
+            return null;
+
+        return resMatr;
     }
 
     public static void main(String[] args) throws IOException {
