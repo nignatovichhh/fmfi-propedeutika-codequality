@@ -29,6 +29,12 @@ public class ConcatenateMatrices {
     // or returns null if next input doesn't give a matrix with given parameters
     public static String[][] readNextMatrix(Scanner scanner, int rowsNum, int colsNum)
     {
+        if (scanner == null)
+            return null;
+
+        if(rowsNum <= 0 || colsNum <= 0)
+            return null;
+
         String[][] resMatr = createMatrixMN(rowsNum,colsNum);
 
         for(int i = 0; i < rowsNum; i++)
@@ -61,6 +67,9 @@ public class ConcatenateMatrices {
     // otherwise, returns false
     public static boolean isMatrix(String[][] array)
     {
+        if(array == null)
+            return false;
+
         if (array.length == 0)
             return true;
 
@@ -79,6 +88,9 @@ public class ConcatenateMatrices {
     // or returns null if given arrays are not matrices or given matrices have different size or zero-size
     public static String[][] concatenateMatrices(String[][] matrix1, String[][] matrix2)
     {
+        if (matrix1 == null || matrix2 == null)
+            return null;
+
         if(!isMatrix(matrix1) || !isMatrix(matrix2))
             return null;
 
@@ -105,9 +117,29 @@ public class ConcatenateMatrices {
         return res;
     }
 
+    // returns matrix which is a result of all given matrices concatenation
+    // or returns null if concatenateMatrices of any 2 matrices returned null
+    public static String[][] concatenatePlentyMatrices(List<String[][]> matrices)
+    {
+        if (matrices.isEmpty())
+            return null;
+
+        String[][] resMatrix = createMatrixMN(matrices.get(0).length,matrices.get(0)[0].length);
+
+        for(int i = 0; i < matrices.size(); i++)
+        {
+            resMatrix = concatenateMatrices(resMatrix,matrices.get(i));
+        }
+
+        return resMatrix;
+    }
+
     // prints to output given array in the format: "[i,j]: arr[i][j]\n"
     public static void arrayToOutput(PrintStream output, String[][] array)
     {
+        if(array == null)
+            return;
+
         int rowsNum = array.length;
 
         for (int i = 0; i < rowsNum; i++) { //formatovany vystup vyslednej matice
@@ -145,6 +177,10 @@ public class ConcatenateMatrices {
 
             allMatrices.add(curMatrix);
         }
+
+        String[][] resultMatrix = concatenatePlentyMatrices(allMatrices);
+
+        arrayToOutput(output, resultMatrix);
 
         scanner.close();
     }
