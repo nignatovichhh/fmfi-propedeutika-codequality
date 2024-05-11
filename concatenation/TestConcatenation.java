@@ -14,6 +14,13 @@ import static concatenation.ConcatenateMatrices.*;
 
 public class TestConcatenation {
 
+    enum testResult{
+        FILE_NOT_EXIST,
+        WRONG_INPUT,
+        WRONG_ANS,
+        PASSED,
+        NOT_PASSED
+    }
     // returns true if matrices are equal;
     // otherwise, returns false
     private static boolean compareMatrices(String[][] matrix1, String[][] matrix2)
@@ -97,13 +104,13 @@ public class TestConcatenation {
 
     // returns true if test passed
     // otherwise, returns false;
-    public static boolean testInputFromFile(String inputFileName, String answerFileName) throws IOException
+    public static testResult testInputFromFile(String inputFileName, String answerFileName) throws IOException
     {
         Scanner scannerInput;
         try {
             scannerInput = new Scanner(new File(inputFileName));
         } catch (IOException e){
-            return false;
+            return testResult.FILE_NOT_EXIST;
         }
 
         int rowsNum=0,colsNum=0;
@@ -114,14 +121,14 @@ public class TestConcatenation {
             if (firstLineScanner.hasNextInt())
                 rowsNum = firstLineScanner.nextInt();
             else
-                return false;
+                return testResult.WRONG_INPUT;
             if (firstLineScanner.hasNextInt())
                 colsNum = firstLineScanner.nextInt();
             else
-                return false;
+                return testResult.WRONG_INPUT;
         }
         else
-            return false;
+            return testResult.WRONG_INPUT;
 
         List<String[][]> allMatrices = new ArrayList<String[][]>();
 
@@ -130,20 +137,57 @@ public class TestConcatenation {
             String[][] curMatrix = readNextMatrix(scannerInput, rowsNum, colsNum);
 
             if(curMatrix == null)
-                break;
+                return testResult.WRONG_INPUT;
 
             allMatrices.add(curMatrix);
         }
 
         String[][] resultMatrix = concatenatePlentyMatrices(allMatrices);
 
+        if (resultMatrix == null)
+            return testResult.NOT_PASSED;
+
         String[][] answerMatrix = readAnswerMatrix(answerFileName,rowsNum,colsNum);
 
-        return compareMatrices(resultMatrix,answerMatrix);
+        if(answerMatrix == null)
+            return testResult.WRONG_ANS;
+
+        if (compareMatrices(resultMatrix,answerMatrix))
+            return testResult.NOT_PASSED;
+
+        return testResult.PASSED;
     }
 
-    public static void main(String[] args) throws IOException
-    {
-        // TODO
+    public static void main(String[] args) throws IOException {
+        String[] testNames={"test1","test2_one_matrix","test3_wrong_ans","test4_wrong_input", "test5_normal"};
+
+        int i=0;
+        String pathToTests ="./tests/";
+        for(String test : testNames)
+        {
+            testResult curTestResult = testInputFromFile(pathToTests+test+".txt",
+                    pathToTests+test+"_ANS.txt");
+
+            System.out.print("TEST_"+Integer.toString(i));
+            switch (curTestResult)
+            {
+                case PASSED:
+                    System.out.println(": PASSED");
+                    break;
+                case WRONG_INPUT:
+                    System.out.println(": WRONG_INPUT");
+                    break;
+                case WRONG_ANS:
+                    System.out.println(": ANS FILE DOESN'T MATCH INPUT");
+                    break;
+                case NOT_PASSED:
+                    System.out.println(": NOT PASSED :(");
+                    break;
+                case FILE_NOT_EXIST:
+                    System.out.println(": WRONG FILE NAME");
+                    break;
+            }
+            i++;
+        }
     }
 }
