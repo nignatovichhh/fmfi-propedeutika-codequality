@@ -38,7 +38,7 @@ public class TestConcatenation {
         {
             for(int j=0;j<matrix1[0].length;j++)
             {
-                if(matrix1[i][j] != matrix2[i][j])
+                if(!matrix1[i][j].equals(matrix2[i][j]))
                     return false;
             }
         }
@@ -115,6 +115,7 @@ public class TestConcatenation {
 
         int rowsNum=0,colsNum=0;
 
+        // read matrix size
         if(scannerInput.hasNextLine())
         {
             Scanner firstLineScanner = new Scanner(scannerInput.nextLine());
@@ -132,6 +133,7 @@ public class TestConcatenation {
 
         List<String[][]> allMatrices = new ArrayList<String[][]>();
 
+        // read all matrices and add it to list
         while(scannerInput.hasNext())
         {
             String[][] curMatrix = readNextMatrix(scannerInput, rowsNum, colsNum);
@@ -142,17 +144,19 @@ public class TestConcatenation {
             allMatrices.add(curMatrix);
         }
 
+        // find result using ConcatenateMatrices.java class
         String[][] resultMatrix = concatenatePlentyMatrices(allMatrices);
 
         if (resultMatrix == null)
             return testResult.NOT_PASSED;
 
+        // read matrix given in answer file
         String[][] answerMatrix = readAnswerMatrix(answerFileName,rowsNum,colsNum);
 
         if(answerMatrix == null)
             return testResult.WRONG_ANS;
 
-        if (compareMatrices(resultMatrix,answerMatrix))
+        if (!compareMatrices(resultMatrix,answerMatrix))
             return testResult.NOT_PASSED;
 
         return testResult.PASSED;

@@ -90,6 +90,7 @@ public class ConcatenateMatrices {
     // or returns null if given arrays are not matrices or given matrices have different size or zero-size
     public static String[][] concatenateMatrices(String[][] matrix1, String[][] matrix2)
     {
+        // check input matrices
         if (matrix1 == null || matrix2 == null)
             return null;
 
@@ -108,6 +109,7 @@ public class ConcatenateMatrices {
         int colsNum = matrix1[0].length;
         String[][] res = createMatrixMN(rowsNum, colsNum);
 
+        // count result
         for(int i = 0; i < rowsNum; i++)
         {
             for(int j = 0; j < colsNum; j++)
@@ -128,6 +130,7 @@ public class ConcatenateMatrices {
 
         String[][] resMatrix = createMatrixMN(matrices.get(0).length,matrices.get(0)[0].length);
 
+        // subsequently adding each matrix from the array to resMatrix
         for(int i = 0; i < matrices.size(); i++)
         {
             resMatrix = concatenateMatrices(resMatrix,matrices.get(i));
